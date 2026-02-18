@@ -8,7 +8,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.quantitymeasurement</groupId>
-    <artifactId>feet-equality</artifactId>
+    <artifactId>feet-inch-equality</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
