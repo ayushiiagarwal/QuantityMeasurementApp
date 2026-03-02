@@ -1,13 +1,14 @@
 public class QuantityMeasurementApp {
     public static void main(String[] args) {
-        Length feet = new Length(1.0, LengthUnit.FEET);
-        Length inch = new Length(12.0, LengthUnit.INCH);
+        QuantityWeight kg = new QuantityWeight(1, WeightUnit.KILOGRAM);
+        QuantityWeight g = new QuantityWeight(1000, WeightUnit.GRAM);
+        QuantityWeight lb = new QuantityWeight(2.20462, WeightUnit.POUND);
 
-        System.out.println("Result (default LengthUnit): " + feet.add(inch));
+        System.out.println("1kg == 1000g : " + kg.equals(g));
+        System.out.println("1kg == 2.20462lb : " + kg.equals(lb));
 
-        System.out.println("Target FEET: " + Length.add(feet, inch, LengthUnit.FEET));
-        System.out.println("Target INCH: " + Length.add(feet, inch, LengthUnit.INCH));
-        System.out.println("Target YARDS: " + Length.add(feet, inch, LengthUnit.YARDS));
-        System.out.println("Target CM: " + Length.add(feet, inch, LengthUnit.CENTIMETER));
+        System.out.println("1kg + 500g = " + kg.add(new QuantityWeight(500, WeightUnit.GRAM)));
+        System.out.println("1kg + 1lb (in pounds) = " + QuantityWeight.add(kg, 
+            new QuantityWeight(1, WeightUnit.POUND), WeightUnit.POUND));
     }
 }

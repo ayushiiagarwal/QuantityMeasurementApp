@@ -14,7 +14,9 @@ public class Length {
         this.unit = unit;
     }
 
-    private double toBaseValue(){ return unit.toFeet(value); }
+    private double toBaseValue(){
+        return unit.toFeet(value);
+    }
 
      public Length convertTo(LengthUnit targetUnit) {
 
@@ -26,17 +28,18 @@ public class Length {
         return new Length(rounded, targetUnit);
     }
 
-    public Length add(Length q){ return add(this, q, this.unit); }
+    public Length add(Length q){
+       return add(this, q, this.unit);
+    }
 
     public static Length add(Length q1, Length q2, LengthUnit targetUnit) throws IllegalArgumentException{
-        if(q1 == null || q2 == null) throw new IllegalArgumentException("Quantity cannot be null");
+        if(q1 == null || q2 == null) throw new IllegalArgumentException(" cannot be null");
         if(targetUnit == null) throw new IllegalArgumentException("Target unit cannot be null");
 
         double sum = q1.toBaseValue() + q2.toBaseValue();
         double ans = targetUnit.fromFeet(sum);
-        double rounded = Math.round(ans * 1000.0) / 1000.0;
 
-        return new Length(rounded, targetUnit);
+        return new Length(Math.round(ans * 1000.0) / 1000.0, targetUnit);
     }
 
     @Override
@@ -50,8 +53,7 @@ public class Length {
 
     @Override
     public int hashCode(){
-        long rounded = Math.round(toBaseValue() / EPSILON);
-        return Objects.hash(rounded);
+        return Objects.hash(Math.round(toBaseValue() / EPSILON));
     }
 
     @Override
