@@ -1,4 +1,4 @@
-public enum WeightUnit {
+public enum WeightUnit implements IMeasurable{
     KILOGRAM(1.0),
     GRAM(0.001),
     POUND(0.453592);
@@ -15,13 +15,18 @@ public enum WeightUnit {
     }
 
     // converting to baseValue
-    public double convertToKG(double baseValue){
+    public double convertToBase(double baseValue){
         return baseValue * toKG;
     }
 
     // converting from baseValue
-    public double convertFromKG(double baseValue){
+    public double convertFromBase(double baseValue){
         return baseValue / toKG;
+    }
+
+     @Override
+    public String getUnitName() {
+        return this.name();
     }
 
 }
