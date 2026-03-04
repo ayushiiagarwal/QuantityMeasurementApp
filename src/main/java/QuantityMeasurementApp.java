@@ -24,5 +24,10 @@ public class QuantityMeasurementApp {
         System.out.println(volume1.convertTo(VolumeUnit.GALLON));
         System.out.println(volume2.add(volume3));
         System.out.println(volume3.add(volume4, VolumeUnit.GALLON));
+
+        System.out.println("Subtract: " + length1.subtract(length2));
+        System.out.println("Subtract in inches: " + length1.subtract(length2, LengthUnit.INCH));
+
+        System.out.println("Division ratio: " + weight1.divide(weight2));
     }
 }

@@ -58,6 +58,33 @@ public class Quantity<U extends IMeasurable> {
         return new Quantity<>(rounded, targetUnit);
     }
 
+    public Quantity<U> subtract(Quantity<U> other){ return subtract(other, this.unit); }
+
+    public Quantity<U> subtract(Quantity<U> other, U targetUnit){
+        if(other == null) throw new IllegalArgumentException("Other quantity cannot be null!");
+        
+        if(targetUnit == null) throw new IllegalArgumentException("Target unit cannot be null!");
+
+        if(!this.unit.getClass().equals(other.unit.getClass()))
+            throw new IllegalArgumentException("Cannot substract different measurements!");
+
+        double difference = this.toBaseValue() - other.toBaseValue();
+        double converted = targetUnit.convertFromBase(difference);
+
+        return new Quantity<>(Math.round(converted * 100.0) / 100.0, targetUnit);
+    }
+
+    public double divide(Quantity<U> other){
+        if(other == null) throw new IllegalArgumentException("Other quantity cannot be null!");
+       
+        if(!this.unit.getClass().equals(other.unit.getClass()))
+            throw new IllegalArgumentException("Cannot substract different measurements!");
+
+        if(other.toBaseValue() == 0.0) throw new ArithmeticException("Division by zero quantity.");
+
+        return this.toBaseValue()/other.toBaseValue();
+    }
+
     @Override
     public String toString(){
         return String.format("%.2f %s", value, unit.getUnitName());
