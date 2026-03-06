@@ -6,4 +6,6 @@ public interface IMeasurable {
     double convertFromBase(double value);
     
     String getUnitName();
+
+    default void validOperationSupport(String operation){}
 }
