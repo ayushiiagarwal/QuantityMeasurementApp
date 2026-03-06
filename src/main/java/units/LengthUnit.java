@@ -1,3 +1,7 @@
+package units;
+import measurable.IMeasurable;
+import support.SupportsArithmetic;
+
 public enum LengthUnit implements IMeasurable{
     FEET(1.0),
     INCH(1.0/12),
@@ -5,6 +9,7 @@ public enum LengthUnit implements IMeasurable{
     CENTIMETER(0.03280839895);
 
     private final double convertToFeet;
+    private static final SupportsArithmetic sm = () -> true;
 
     LengthUnit(double convertToFeet){
         this.convertToFeet = convertToFeet;
