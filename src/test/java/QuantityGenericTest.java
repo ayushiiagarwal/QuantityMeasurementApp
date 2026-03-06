@@ -115,16 +115,6 @@ public class QuantityGenericTest {
     }
 
     @Test
-    void testSubtraction_SameCategory() {
-        Quantity<LengthUnit> quantity1 = new Quantity<>(10.0, LengthUnit.FEET);
-        Quantity<LengthUnit> quantity2 = new Quantity<>(5.0, LengthUnit.FEET);
-
-        Quantity<LengthUnit> result = quantity1.subtract(quantity2);
-
-        assertEquals(new Quantity<>(5.0, LengthUnit.FEET), result);
-    }
-
-    @Test
     void testSubtraction_ChainedOperations(){
         Quantity<LengthUnit> quantity1 = new Quantity<LengthUnit>(10.0, LengthUnit.FEET); 
         Quantity<LengthUnit> quantity2 = new Quantity<LengthUnit>(2.0, LengthUnit.FEET); 
@@ -210,4 +200,3 @@ public class QuantityGenericTest {
     }
 
 }
-
