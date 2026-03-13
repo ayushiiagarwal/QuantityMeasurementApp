@@ -21,15 +21,10 @@ public class QuantityMeasurementAppTest {
         controller = new QuantityMeasurementController(service);
     }
 
-    //ENTITY TESTS
-
     @Test
     void testQuantityEntity_SingleOperandConstruction() {
 
-        QuantityMeasurementEntity entity = new QuantityMeasurementEntity(
-                        "CONVERT",
-                        "1 FEET",
-                        "12 INCH");
+        QuantityMeasurementEntity entity = new QuantityMeasurementEntity("CONVERT","1 FEET","12 INCH");
 
         assertEquals("CONVERT", entity.getOperation());
         assertEquals("1 FEET", entity.getOperand1());
@@ -40,11 +35,7 @@ public class QuantityMeasurementAppTest {
     @Test
     void testQuantityEntity_BinaryOperandConstruction() {
 
-        QuantityMeasurementEntity entity = new QuantityMeasurementEntity(
-                        "ADD",
-                        "1 FEET",
-                        "12 INCH",
-                        "2 FEET");
+        QuantityMeasurementEntity entity = new QuantityMeasurementEntity("ADD","1 FEET","12 INCH","2 FEET");
 
         assertEquals("ADD", entity.getOperation());
         assertEquals("1 FEET", entity.getOperand1());
@@ -64,11 +55,8 @@ public class QuantityMeasurementAppTest {
     @Test
     void testQuantityEntity_ToString_Success() {
 
-        QuantityMeasurementEntity entity = new QuantityMeasurementEntity(
-                        "ADD",
-                        "1 FEET",
-                        "12 INCH",
-                        "2 FEET");
+        QuantityMeasurementEntity entity = new QuantityMeasurementEntity("ADD","1 FEET",
+                    "12 INCH","2 FEET");
 
         assertTrue(entity.toString().contains("ADD"));
     }
@@ -81,16 +69,14 @@ public class QuantityMeasurementAppTest {
         assertTrue(entity.toString().contains("ERROR"));
     }
 
-    //   SERVICE TESTS  
-
     @Test
     void testService_CompareEquality_SameUnit_Success() {
 
-        Quantity<LengthUnit> q1 = new Quantity<>(1, LengthUnit.FEET);
+        Quantity<LengthUnit> quantity1 = new Quantity<>(1, LengthUnit.FEET);
 
-        Quantity<LengthUnit> q2 = new Quantity<>(1, LengthUnit.FEET);
+        Quantity<LengthUnit> quantity2 = new Quantity<>(1, LengthUnit.FEET);
 
-        QuantityMeasurementEntity entity = service.compare(q1, q2);
+        QuantityMeasurementEntity entity = service.compare(quantity1, quantity2);
 
         assertFalse(entity.hasError());
         assertTrue(entity.getResult().contains("true"));
@@ -99,11 +85,11 @@ public class QuantityMeasurementAppTest {
     @Test
     void testService_CompareEquality_DifferentUnit_Success() {
 
-        Quantity<LengthUnit> q1 = new Quantity<>(1, LengthUnit.FEET);
+        Quantity<LengthUnit> quantity1 = new Quantity<>(1, LengthUnit.FEET);
 
-        Quantity<LengthUnit> q2 = new Quantity<>(12, LengthUnit.INCH);
+        Quantity<LengthUnit> quantity2 = new Quantity<>(12, LengthUnit.INCH);
 
-        QuantityMeasurementEntity entity = service.compare(q1, q2);
+        QuantityMeasurementEntity entity = service.compare(quantity1, quantity2);
 
         assertFalse(entity.hasError());
     }
@@ -122,11 +108,11 @@ public class QuantityMeasurementAppTest {
     @Test
     void testService_Add_Success() {
 
-        Quantity<LengthUnit> q1 = new Quantity<>(1, LengthUnit.FEET);
+        Quantity<LengthUnit> quantity1 = new Quantity<>(1, LengthUnit.FEET);
 
-        Quantity<LengthUnit> q2 = new Quantity<>(12, LengthUnit.INCH);
+        Quantity<LengthUnit> quantity2 = new Quantity<>(12, LengthUnit.INCH);
 
-        QuantityMeasurementEntity entity = service.add(q1, q2);
+        QuantityMeasurementEntity entity = service.add(quantity1, quantity2);
 
         assertFalse(entity.hasError());
     }
@@ -134,11 +120,11 @@ public class QuantityMeasurementAppTest {
     @Test
     void testService_Subtract_Success() {
 
-        Quantity<LengthUnit> q1 = new Quantity<>(2, LengthUnit.FEET);
+        Quantity<LengthUnit> quantity1 = new Quantity<>(2, LengthUnit.FEET);
 
-        Quantity<LengthUnit> q2 = new Quantity<>(12, LengthUnit.INCH);
+        Quantity<LengthUnit> quantity2 = new Quantity<>(12, LengthUnit.INCH);
 
-        QuantityMeasurementEntity entity = service.subtract(q1, q2);
+        QuantityMeasurementEntity entity = service.subtract(quantity1, quantity2);
 
         assertFalse(entity.hasError());
     }
@@ -146,11 +132,11 @@ public class QuantityMeasurementAppTest {
     @Test
     void testService_Divide_Success() {
 
-        Quantity<LengthUnit> q1 = new Quantity<>(2, LengthUnit.FEET);
+        Quantity<LengthUnit> quantity1 = new Quantity<>(2, LengthUnit.FEET);
 
-        Quantity<LengthUnit> q2 = new Quantity<>(1, LengthUnit.FEET);
+        Quantity<LengthUnit> quantity2 = new Quantity<>(1, LengthUnit.FEET);
 
-        QuantityMeasurementEntity entity = service.divide(q1, q2);
+        QuantityMeasurementEntity entity = service.divide(quantity1, quantity2);
 
         assertFalse(entity.hasError());
     }
@@ -167,26 +153,24 @@ public class QuantityMeasurementAppTest {
         assertTrue(entity.hasError());
     }
 
-    //   CONTROLLER TESTS  
-
     @Test
     void testController_DemonstrateEquality_Success() {
 
-        Quantity<LengthUnit> q1 = new Quantity<>(1, LengthUnit.FEET);
+        Quantity<LengthUnit> quantity1 = new Quantity<>(1, LengthUnit.FEET);
 
-        Quantity<LengthUnit> q2 = new Quantity<>(12, LengthUnit.INCH);
+        Quantity<LengthUnit> quantity2 = new Quantity<>(12, LengthUnit.INCH);
 
-        assertDoesNotThrow(() -> controller.demonstrateEquality(q1, q2));
+        assertDoesNotThrow(() -> controller.demonstrateEquality(quantity1, quantity2));
     }
 
     @Test
     void testController_DemonstrateAddition_Success() {
 
-        Quantity<LengthUnit> q1 = new Quantity<>(1, LengthUnit.FEET);
+        Quantity<LengthUnit> quantity1 = new Quantity<>(1, LengthUnit.FEET);
 
-        Quantity<LengthUnit> q2 = new Quantity<>(12, LengthUnit.INCH);
+        Quantity<LengthUnit> quantity2 = new Quantity<>(12, LengthUnit.INCH);
 
-        assertDoesNotThrow(() -> controller.demonstrateAddition(q1, q2));
+        assertDoesNotThrow(() -> controller.demonstrateAddition(quantity1, quantity2));
     }
 
     @Test
