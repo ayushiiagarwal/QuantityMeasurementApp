@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/quantities")
+@RequestMapping("/api/quantities")
 public class QuantityMeasurementController {
 
     @Autowired

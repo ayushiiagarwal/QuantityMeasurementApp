@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
+    
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handleException(Exception e){
         return new ResponseEntity<>(new ErrorResponse(
