@@ -48,6 +48,8 @@ The **Quantity Measurement App** is a Java-based application that supports opera
   
   UC17 - [Spring Boot Backend](https://github.com/ayushiiagarwal/QuantityMeasurementApp/tree/feature/UC17-Spring-Backend-for-Quantity-Measurement)
 
+  UC18 - [Spring Backend Security](https://github.com/ayushiiagarwal/QuantityMeasurementApp/tree/feature/UC18-Spring-Backend-Security)
+
 </details>
 
 
