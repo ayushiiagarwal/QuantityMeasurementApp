@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.app.quantitymeasurement.security.JwtUtil;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -47,6 +49,7 @@ public class AuthController {
     }
 
     @GetMapping("/secure")
+    @SecurityRequirement(name = "bearerAuth")
     public String secure() {
         return "This is secured!";
     }

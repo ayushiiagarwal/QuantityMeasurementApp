@@ -80,7 +80,9 @@ public class QuantityMeasurementServiceImpl implements IQuantityMeasurementServi
                     result.toString()));
 
         } catch (Exception e) {
-            return repository.save(new QuantityMeasurementEntity(e.getMessage()));
+            e.printStackTrace();
+            // return repository.save(new QuantityMeasurementEntity(e.getMessage()));
+            throw new RuntimeException(e.getMessage());
         }
     }
 
