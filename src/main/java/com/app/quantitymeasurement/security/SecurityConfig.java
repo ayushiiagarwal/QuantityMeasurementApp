@@ -1,5 +1,6 @@
 package com.app.quantitymeasurement.security;
 
+import io.swagger.v3.oas.models.servers.Server;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,6 +24,7 @@ class SwaggerSecurityConfig {
     @Bean
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
+                .addServersItem(new Server().url("https://quantitymeasurementapp.up.railway.app"))
                 .addSecurityItem(new SecurityRequirement().addList("bearerAuth"))
                 .components(new Components()
                         .addSecuritySchemes("bearerAuth",
@@ -51,6 +53,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         http
+                .cors(cors -> {})
             .csrf(csrf -> csrf.disable())
             .sessionManagement(session -> 
                 session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -61,8 +64,7 @@ public class SecurityConfig {
                     "/v3/api-docs/**",
                     "/v3/api-docs",
                     "/swagger-resources/**",
-                    "/webjars/**",
-                    "/**"  ).permitAll()
+                    "/webjars/**").permitAll()
                 .anyRequest().authenticated()
             )
             .exceptionHandling(ex -> ex
