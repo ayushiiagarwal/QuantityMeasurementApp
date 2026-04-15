@@ -2,18 +2,49 @@ spring:
   application:
     name: api-gateway
 
+  webflux:
+    cors:
+      mappings:
+        "[/**]":
+          allowed-origins:
+            - "http://localhost:4200"
+          allowed-methods:
+            - GET
+            - POST
+            - PUT
+            - DELETE
+            - OPTIONS
+          allowed-headers: "*"
+          allow-credentials: true
+
   cloud:
     gateway:
+      globalcors:
+        corsConfigurations:
+          "[/**]":
+            allowedOrigins:
+              - "http://localhost:4200"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS
+            allowedHeaders: "*"
+            allowCredentials: true
       routes:
-
-        # ── User-Service: auth endpoints (no JWT required) ──────────────────
         - id: user-service-auth
           uri: lb://user-service
           predicates:
             - Path=/auth/**
-          # No JwtAuthFilter here — login & register are public
 
-        # ── User-Service: secured profile/history endpoints ─────────────────
+        - id: user-service-oauth2
+          uri: lb://user-service
+          predicates:
+            - Path=/oauth2/**,/login/oauth2/**
+          filters:
+            - JwtAuthFilter
+
         - id: user-service-secured
           uri: lb://user-service
           predicates:
@@ -21,7 +52,6 @@ spring:
           filters:
             - JwtAuthFilter
 
-        # ── Measurement-Service (all routes are secured) ─────────────────────
         - id: measurement-service
           uri: lb://measurement-service
           predicates:
@@ -29,7 +59,6 @@ spring:
           filters:
             - JwtAuthFilter
 
-        # ── Swagger API-docs forwarding (no JWT filter) ──────────────────────────────
         - id: user-service-api-docs
           uri: lb://user-service
           predicates:
@@ -44,7 +73,6 @@ spring:
           filters:
             - RewritePath=/measurement-service(?<remaining>.*), $\{remaining}
 
-
 server:
   port: 8080
 
@@ -55,8 +83,6 @@ eureka:
   instance:
     prefer-ip-address: true
 
-
-# ── SpringDoc config for the gateway ─────────────────────────────────────────
 springdoc:
   swagger-ui:
     path: /swagger-ui/index.html

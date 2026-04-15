@@ -12,5 +12,6 @@ public interface QuantityMeasurementRepository extends JpaRepository<QuantityMea
     List<QuantityMeasurementEntity> findByOperand1(String operand1);
     List<QuantityMeasurementEntity> findByErrorIsNotNull();
     List<QuantityMeasurementEntity> findByUserEmail(String userEmail);
+    void deleteByUserEmail(String userEmail);
     long countByOperation(String operation);
 }

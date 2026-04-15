@@ -5,12 +5,15 @@ import com.app.user.repository.UserRepository;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 @Component
 public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
@@ -20,6 +23,9 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
     @Autowired
     private JwtUtil jwtUtil;
+
+    @Value("${app.frontend.url:http://localhost:4200}")
+    private String frontendUrl;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request,
@@ -40,6 +46,11 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         });
 
         String token = jwtUtil.generateToken(email);
-        response.getWriter().write("JWT: " + token);
+        String redirectUrl = frontendUrl
+                + "/auth/callback?token=" + URLEncoder.encode(token, StandardCharsets.UTF_8)
+                + "&email=" + URLEncoder.encode(email, StandardCharsets.UTF_8)
+                + "&name=" + URLEncoder.encode(name == null ? "" : name, StandardCharsets.UTF_8);
+
+        response.sendRedirect(redirectUrl);
     }
 }

@@ -18,6 +18,7 @@ public class SecurityConfig {
 
     @Autowired private JwtFilter jwtFilter;
     @Autowired private OAuth2SuccessHandler successHandler;
+    @Autowired private OAuth2FailureHandler failureHandler;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -36,7 +37,9 @@ public class SecurityConfig {
                 .exceptionHandling(ex -> ex
                 .authenticationEntryPoint((req, res, e) ->
                     res.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized")))
-                .oauth2Login(oauth -> oauth.successHandler(successHandler))
+                .oauth2Login(oauth -> oauth
+                        .successHandler(successHandler)
+                        .failureHandler(failureHandler))
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();

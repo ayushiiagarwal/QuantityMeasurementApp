@@ -35,11 +35,13 @@ public class JwtAuthFilter extends AbstractGatewayFilterFactory<JwtAuthFilter.Co
             String path = exchange.getRequest().getURI().getPath();
 
             boolean isOpen = OPEN_PATHS.stream().anyMatch(path::startsWith);
-            if (isOpen) return chain.filter(exchange);
-
             String authHeader = exchange.getRequest()
                     .getHeaders()
                     .getFirst(HttpHeaders.AUTHORIZATION);
+
+            if (isOpen && (authHeader == null || !authHeader.startsWith("Bearer "))) {
+                return chain.filter(exchange);
+            }
 
             if (authHeader == null || !authHeader.startsWith("Bearer ")) {
                 return unauthorized(exchange);

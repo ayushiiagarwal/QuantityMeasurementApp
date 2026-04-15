@@ -7,6 +7,9 @@ import com.app.measurement.repository.QuantityMeasurementRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @SuppressWarnings("unchecked")
 @Service
 public class QuantityMeasurementServiceImpl implements IQuantityMeasurementService {
@@ -72,6 +75,50 @@ public class QuantityMeasurementServiceImpl implements IQuantityMeasurementServi
 
     private QuantityMeasurementEntity save(QuantityMeasurementEntity entity, String userEmail) {
         entity.setUserEmail(userEmail);
+        if (userEmail == null || userEmail.isBlank()) {
+            return entity;
+        }
         return repository.save(entity);
+    }
+
+    @Override
+    public List<QuantityMeasurementEntity> findHistory(String userEmail) {
+        if (userEmail == null || userEmail.isBlank()) {
+            return List.of();
+        }
+        return repository.findByUserEmail(userEmail);
+    }
+
+    @Override
+    public List<QuantityMeasurementEntity> importHistory(List<QuantityMeasurementEntity> records, String userEmail) {
+        if (userEmail == null || userEmail.isBlank() || records == null || records.isEmpty()) {
+            return List.of();
+        }
+
+        List<QuantityMeasurementEntity> saved = new ArrayList<>();
+        for (QuantityMeasurementEntity record : records) {
+            if (record == null) {
+                continue;
+            }
+            QuantityMeasurementEntity entity = new QuantityMeasurementEntity(
+                    record.getOperation(),
+                    record.getOperand1(),
+                    record.getOperand2(),
+                    record.getResult()
+            );
+            if (record.getError() != null && !record.getError().isBlank()) {
+                entity = new QuantityMeasurementEntity(record.getError());
+            }
+            saved.add(save(entity, userEmail));
+        }
+        return saved;
+    }
+
+    @Override
+    public void clearHistory(String userEmail) {
+        if (userEmail == null || userEmail.isBlank()) {
+            return;
+        }
+        repository.deleteByUserEmail(userEmail);
     }
 }
