@@ -1,0 +1,70 @@
+spring:
+  application:
+    name: api-gateway
+
+  cloud:
+    gateway:
+      routes:
+
+        # ── User-Service: auth endpoints (no JWT required) ──────────────────
+        - id: user-service-auth
+          uri: lb://user-service
+          predicates:
+            - Path=/auth/**
+          # No JwtAuthFilter here — login & register are public
+
+        # ── User-Service: secured profile/history endpoints ─────────────────
+        - id: user-service-secured
+          uri: lb://user-service
+          predicates:
+            - Path=/users/**
+          filters:
+            - JwtAuthFilter
+
+        # ── Measurement-Service (all routes are secured) ─────────────────────
+        - id: measurement-service
+          uri: lb://measurement-service
+          predicates:
+            - Path=/api/quantities/**
+          filters:
+            - JwtAuthFilter
+
+        # ── Swagger API-docs forwarding (no JWT filter) ──────────────────────────────
+        - id: user-service-api-docs
+          uri: lb://user-service
+          predicates:
+            - Path=/user-service/v3/api-docs/**,/user-service/v3/api-docs
+          filters:
+            - RewritePath=/user-service(?<remaining>.*), $\{remaining}
+
+        - id: measurement-service-api-docs
+          uri: lb://measurement-service
+          predicates:
+            - Path=/measurement-service/v3/api-docs/**,/measurement-service/v3/api-docs
+          filters:
+            - RewritePath=/measurement-service(?<remaining>.*), $\{remaining}
+
+
+server:
+  port: 8080
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    prefer-ip-address: true
+
+
+# ── SpringDoc config for the gateway ─────────────────────────────────────────
+springdoc:
+  swagger-ui:
+    path: /swagger-ui/index.html
+    config-url: /v3/api-docs/swagger-config
+    urls:
+      - name: User Service
+        url: /user-service/v3/api-docs
+      - name: Measurement Service
+        url: /measurement-service/v3/api-docs
+  api-docs:
+    enabled: true
