@@ -19,13 +19,15 @@ public class CorsConfig {
     @Bean
     public CorsWebFilter corsWebFilter() {
         CorsConfiguration config = new CorsConfiguration();
-        List<String> origins = new ArrayList<>();
-        origins.add("http://localhost:4200");
-        if (!origins.contains(frontendUrl)) {
-            origins.add(frontendUrl);
+        List<String> originPatterns = new ArrayList<>();
+        originPatterns.add("http://localhost:4200");
+        originPatterns.add("https://*.railway.app");
+        originPatterns.add("https://qma-apigateway.up.railway.app");
+        if (frontendUrl != null && !frontendUrl.isBlank() && !originPatterns.contains(frontendUrl)) {
+            originPatterns.add(frontendUrl);
         }
 
-        config.setAllowedOrigins(origins);
+        config.setAllowedOriginPatterns(originPatterns);
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true);
