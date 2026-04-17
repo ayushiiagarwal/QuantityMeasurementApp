@@ -7,6 +7,7 @@ spring:
       mappings:
         "[/**]":
           allowed-origins:
+            - http://localhost:4200
             - "${FRONTEND_URL:http://localhost:4200}"
           allowed-methods:
             - GET
@@ -23,6 +24,7 @@ spring:
         corsConfigurations:
           "[/**]":
             allowedOrigins:
+              - http://localhost:4200
               - "${FRONTEND_URL:http://localhost:4200}"
             allowedMethods:
               - GET
