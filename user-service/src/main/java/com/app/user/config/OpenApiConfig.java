@@ -22,7 +22,7 @@ public class OpenApiConfig {
                         .title("User Service API")
                         .description("User registration, login and Google OAuth2 authentication")
                         .version("1.0.0"))
-                        .servers(List.of(new Server().url("http://localhost:8080").description("API Gateway")))
+                        .servers(List.of(new Server().url("/").description("API Gateway")))
                         .addSecurityItem(new SecurityRequirement().addList(schemeName))
                         .components(new Components()
                         .addSecuritySchemes(schemeName, new SecurityScheme()

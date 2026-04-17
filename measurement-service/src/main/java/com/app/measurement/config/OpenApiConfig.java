@@ -22,7 +22,7 @@ public class OpenApiConfig {
                         .title("Measurement Service API")
                         .description("Unit conversion, comparison and arithmetic — length, weight, volume, temperature")
                         .version("1.0.0"))
-                        .servers(List.of(new Server().url("http://localhost:8080").description("API Gateway")))
+                        .servers(List.of(new Server().url("/").description("API Gateway")))
                         .addSecurityItem(new SecurityRequirement().addList(schemeName))
                         .components(new Components()
                         .addSecuritySchemes(schemeName, new SecurityScheme()
