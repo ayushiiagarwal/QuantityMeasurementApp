@@ -23,6 +23,7 @@ public class CorsConfig {
         originPatterns.add("http://localhost:4200");
         originPatterns.add("https://*.railway.app");
         originPatterns.add("https://qma-apigateway.up.railway.app");
+        originPatterns.add("https://quantity-measurement-app-frontend-beryl.vercel.app");
         if (frontendUrl != null && !frontendUrl.isBlank() && !originPatterns.contains(frontendUrl)) {
             originPatterns.add(frontendUrl);
         }

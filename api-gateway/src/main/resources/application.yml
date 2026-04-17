@@ -7,10 +7,10 @@ spring:
       mappings:
         "[/**]":
           allowed-origin-patterns:
-            - http://localhost:4200
+            - https://quantity-measurement-app-frontend-beryl.vercel.app
             - "https://*.railway.app"
             - "https://qma-apigateway.up.railway.app"
-            - "${FRONTEND_URL:http://localhost:4200}"
+            - "${FRONTEND_URL:https://quantity-measurement-app-frontend-beryl.vercel.app}"
           allowed-methods:
             - GET
             - POST
@@ -26,10 +26,10 @@ spring:
         corsConfigurations:
           "[/**]":
             allowedOriginPatterns:
-              - http://localhost:4200
+              - https://quantity-measurement-app-frontend-beryl.vercel.app
               - "https://*.railway.app"
               - "https://qma-apigateway.up.railway.app"
-              - "${FRONTEND_URL:http://localhost:4200}"
+              - "${FRONTEND_URL:https://quantity-measurement-app-frontend-beryl.vercel.app}"
             allowedMethods:
               - GET
               - POST
